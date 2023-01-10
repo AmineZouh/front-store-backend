@@ -40,3 +40,37 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+### Restful routes
+# Product
+
+show all products route : '/products' [GET]
+show a specific product based on the id route : '/products/:id' [GET]
+create a specific product route : '/products' [POST]
+show the top five most popular products route : '/products/topfivepopular' [GET]
+show products of a specific category : '/products/:category' [GET]
+
+# User
+
+show all users route : '/users' [GET]
+show a specific user by id route : 'users/:id' [GET]
+create new user route : '/users' [POST]
+
+# Order
+
+show the current active user's order : '/orders/active/:user_id' [GET]
+show the list of completed user's orders : '/orders/completed/:user_id' [GET]
+
+#### Database tables 
+
+# products table 
+
+products(id serial primary key, name varchar(100), category varchar(100), price integer, number_sells integer);
+
+# users table
+
+users(id serial primary key, first_name varchar(100), last_name varchar(100), password varchar(100))
+
+# orders table 
+
+orders(id serial primary key, user_id integer [ foreign key references users(id)], date varchar(100), status varchar(100));
+
