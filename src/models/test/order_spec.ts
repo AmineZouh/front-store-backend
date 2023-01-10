@@ -21,4 +21,5 @@ describe('Test of order model', ()=>{
         const result:Order = await store.currentUserOrder(1)
         expect(result).toEqual(order)
     })
+
 })

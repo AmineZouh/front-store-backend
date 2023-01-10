@@ -11,15 +11,16 @@ describe('product handler endpoints test', () => {
     it('post to /products endpoint should create new product and return it as response', async () => {
         const token = (0, generate_token_1.default)();
         const product = { name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
-        const expected = { id: 2, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
+        const expected = { id: 3, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
         const response = await request.post('/products').set('Authorization', `Bearer ${token}`).send(product);
         expect(response.body).toEqual(expected);
     });
     it('get products should return a response with a list of products', async () => {
         const product1 = { id: 1, name: 'laptop', category: 'computer', price: 1000, number_sells: 9 };
-        const product2 = { id: 2, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
+        const product2 = { id: 3, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
+        const product3 = { id: 2, name: 'microphone', category: 'electronic', price: 35, number_sells: 213 };
         const response = await request.get('/products');
-        expect(response.body).toEqual([product1, product2]);
+        expect(response.body).toEqual([product1, product3, product2]);
     });
     it('get product should return a response with a single object', async () => {
         const product1 = { id: 1, name: 'laptop', category: 'computer', price: 1000, number_sells: 9 };
@@ -28,9 +29,10 @@ describe('product handler endpoints test', () => {
     });
     it('get topFivePopular endpoint should return five products', async () => {
         const product1 = { id: 1, name: 'laptop', category: 'computer', price: 1000, number_sells: 9 };
-        const product2 = { id: 2, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
+        const product2 = { id: 3, name: 'Book', category: 'Book', price: 20, number_sells: 1000 };
+        const product3 = { id: 2, name: 'microphone', category: 'electronic', price: 35, number_sells: 213 };
         const response = await request.get('/products/topfivepopular');
-        expect(response.body).toEqual([product2, product1]);
+        expect(response.body).toEqual([product2, product3, product1]);
     });
     it('get by category endpoint should return the specefied category', async () => {
         const product1 = { id: 1, name: 'laptop', category: 'computer', price: 1000, number_sells: 9 };
