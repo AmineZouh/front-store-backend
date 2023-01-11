@@ -1,6 +1,7 @@
 import { UserStore, User } from "../models/user";
 import express, {Request, Response} from "express";
 import { verifyToken } from "./token_verification";
+import jwt from 'jsonwebtoken'
 
 const store = new UserStore()
 
@@ -31,9 +32,11 @@ async function show(req:Request, res:Response){
 
 async function create(req:Request, res:Response){
     try {
+        const secret = process.env.TOKEN_SECRET as string
         const user:User = req.body
         const createdUser = await store.create(user)
-        res.json(createdUser)
+        var token = jwt.sign({ user: createdUser }, secret);
+        res.json(token)
     } catch (error) {
         res.status(400)
         res.json(error)
@@ -43,7 +46,7 @@ async function create(req:Request, res:Response){
 
 const user_routes = (app:express.Application)=>{
     app.get('/users', verifyToken, index)
-    app.post('/users', verifyToken, create)
+    app.post('/users', create)
     app.get('/users/:id', verifyToken, show)
 }
 
